@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:weather_app/common/common_data.dart';
 import 'package:http/http.dart' as http;
 
@@ -8,9 +10,12 @@ class Network {
 
   Network({this.latitude, this.longitude});
 
-  Future<void> parseJson() async {
-    var request =
-        await http.get(apiUrl + 'lat=$latitude&lon=$longitude&appid=$apiKey');
-    print(request.body);
+  Future<int> parseJson() async {
+    var request = await http.get(
+        apiUrl + 'lat=$latitude&lon=$longitude&units=metric&appid=$apiKey');
+    var decodedJson = jsonDecode(request.body);
+    var weatherId = decodedJson['weather'][0]['id'];
+    print(decodedJson['weather'][0]['id']);
+    return weatherId;
   }
 }
