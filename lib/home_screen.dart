@@ -8,19 +8,21 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  var weatherId = -1;
+  var weatherId;
+  var weatherTemp;
   void getLocation() async {
     Position position = await Geolocator()
         .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
     Network network = Network(
         latitude: position.latitude.toInt(),
         longitude: position.longitude.toInt());
-    weatherId = await network.parseJson();
+    weatherId = await network.returnWeatherId();
+    weatherTemp = await network.returnWeatherTemp();
+    setState(() {});
   }
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     getLocation();
   }
@@ -29,7 +31,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Text(
-        weatherId.toString(),
+        weatherTemp.toString(),
         style: TextStyle(fontSize: 200),
       ),
     );

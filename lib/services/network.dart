@@ -10,12 +10,21 @@ class Network {
 
   Network({this.latitude, this.longitude});
 
-  Future<int> parseJson() async {
+  Future<int> returnWeatherId() async {
     var request = await http.get(
         apiUrl + 'lat=$latitude&lon=$longitude&units=metric&appid=$apiKey');
     var decodedJson = jsonDecode(request.body);
     var weatherId = decodedJson['weather'][0]['id'];
-    print(decodedJson['weather'][0]['id']);
+
     return weatherId;
+  }
+
+  Future<int> returnWeatherTemp() async {
+    var request = await http.get(
+        apiUrl + 'lat=$latitude&lon=$longitude&units=metric&appid=$apiKey');
+    var decodedJson = jsonDecode(request.body);
+    var weatherTemp = decodedJson['main']['temp'];
+    print(weatherTemp);
+    return weatherTemp.toInt();
   }
 }
