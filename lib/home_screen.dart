@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:weather_app/services/network.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -10,8 +11,10 @@ class _HomeScreenState extends State<HomeScreen> {
   void getLocation() async {
     Position position = await Geolocator()
         .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
-    print(position.latitude);
-    print(position.longitude);
+    Network network = Network(
+        latitude: position.latitude.toInt(),
+        longitude: position.longitude.toInt());
+    network.parseJson();
   }
 
   @override
