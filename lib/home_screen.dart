@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:weather_app/services/network.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -30,9 +31,22 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Text(
-        weatherTemp.toString(),
-        style: TextStyle(fontSize: 200),
+      body: Column(
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.only(top: 100.0),
+            child: Center(
+              child: Text(
+                '$weatherTemp°',
+                style: GoogleFonts.comfortaa(
+                  fontSize: 160,
+                  fontWeight: FontWeight.w100,
+                  letterSpacing: -10.0,
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
