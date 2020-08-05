@@ -5,6 +5,10 @@ import 'package:weather_app/services/network.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class HomeScreen extends StatefulWidget {
+  final weatherId;
+  final weatherTemp;
+  final weekdayList;
+  HomeScreen({this.weatherId, this.weatherTemp, this.weekdayList});
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
@@ -30,16 +34,19 @@ class _HomeScreenState extends State<HomeScreen> {
     setState(() {});
   }
 
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    weatherId = widget.weatherId;
+    weatherTemp = widget.weatherTemp;
+    weekdayList = widget.weekdayList;
+  }
+
   void _onRefresh() async {
     getLocation();
     await Future.delayed(Duration(milliseconds: 1000));
     _refreshController.refreshCompleted();
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    getLocation();
   }
 
   @override
@@ -50,8 +57,20 @@ class _HomeScreenState extends State<HomeScreen> {
         onRefresh: _onRefresh,
         enablePullDown: true,
         header: BezierHeader(
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Icon(
+                  Icons.refresh,
+                  size: 35,
+                  color: Theme.of(context).primaryColor,
+                )
+              ],
+            ),
+          ),
           bezierColor: Colors.yellow,
-          rectHeight: 100,
+          rectHeight: 90,
         ),
         child: Column(
           children: <Widget>[
@@ -90,11 +109,19 @@ class _HomeScreenState extends State<HomeScreen> {
                       color: Colors.yellow,
                     ),
                     SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.20,
+                      height: MediaQuery.of(context).size.height * 0.2,
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[Text('Wed'), Text('Thu'), Text('Fri')],
+                    Container(
+                      height: MediaQuery.of(context).size.height * 0.09,
+                      width: MediaQuery.of(context).size.width,
+                      child: ListView.builder(
+                        shrinkWrap: true,
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (BuildContext context, int index) {
+                          return Text('w');
+                        },
+                        itemCount: weekdayList.length,
+                      ),
                     )
                   ],
                 ),
