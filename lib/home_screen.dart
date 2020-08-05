@@ -13,15 +13,19 @@ class _HomeScreenState extends State<HomeScreen> {
   RefreshController _refreshController =
       RefreshController(initialRefresh: false);
   var weatherId;
-  var weatherTemp;
+  List weatherTemp;
+  List weekdayList;
+
   void getLocation() async {
     Position position = await Geolocator()
         .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
     Network network = Network(
         latitude: position.latitude.toInt(),
         longitude: position.longitude.toInt());
-    weatherId = await network.returnWeatherIdAndDate();
-//    weatherTemp = await network.returnWeatherTemp();
+    weatherId = await network.idAndDateList();
+    weatherTemp = await network.temperatureList();
+    weekdayList = await network.weekdayList();
+
     print('called getLocation');
     setState(() {});
   }
@@ -54,23 +58,43 @@ class _HomeScreenState extends State<HomeScreen> {
             Padding(
               padding: const EdgeInsets.only(top: 50.0),
               child: Center(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                child: Column(
                   children: <Widget>[
-                    Text(
-                      '$weatherTemp',
-                      style: GoogleFonts.comfortaa(
-                        fontSize: 140,
-                        fontWeight: FontWeight.w100,
-                        letterSpacing: -10.0,
-                      ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Text(
+                          '${weatherTemp.elementAt(0)}',
+                          style: GoogleFonts.comfortaa(
+                            fontSize: 140,
+                            fontWeight: FontWeight.w100,
+                            letterSpacing: -10.0,
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 108.0),
+                          child: Text(
+                            '°',
+                            style: GoogleFonts.comfortaa(fontSize: 80),
+                          ),
+                        )
+                      ],
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 108.0),
-                      child: Text(
-                        '°',
-                        style: GoogleFonts.comfortaa(fontSize: 80),
-                      ),
+                    Text(
+                      weekdayList.elementAt(0),
+                      style: GoogleFonts.comfortaa(fontSize: 20),
+                    ),
+                    Container(
+                      width: 250,
+                      height: 250,
+                      color: Colors.yellow,
+                    ),
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.20,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[Text('Wed'), Text('Thu'), Text('Fri')],
                     )
                   ],
                 ),

@@ -13,16 +13,25 @@ class Network {
         'https://api.openweathermap.org/data/2.5/onecall?lat=$latitude&lon=$longitude&%20exclude=minutely,daily&units=metric&appid=$apiKey';
   }
 
-  Future<List> returnWeatherIdAndDate() async {
+  Future<List> idAndDateList() async {
     var request = await http.get(apiUrl);
     var decodedJson = jsonDecode(request.body);
     var weatherArray = decodedJson['daily'];
-    var dailyWeatherIdList = List();
-    var weekdayArray = List();
+    var idList = List();
 
     for (int i = 0; i < 8; i++) {
+      idList.add(weatherArray[i]['weather'][0]['id']);
+    }
+    return idList;
+  }
+
+  Future<List> weekdayList() async {
+    var request = await http.get(apiUrl);
+    var decodedJson = jsonDecode(request.body);
+    var weatherArray = decodedJson['daily'];
+    var weekdayList = List();
+    for (int i = 0; i < 8; i++) {
       var weekday;
-      dailyWeatherIdList.add(weatherArray[i]['weather'][0]['id']);
       switch (DateTime.fromMillisecondsSinceEpoch(weatherArray[i]['dt'] * 1000)
           .weekday) {
         case 1:
@@ -47,29 +56,22 @@ class Network {
           weekday = 'Sun';
           break;
       }
-      weekdayArray.add(weekday);
-      print(dailyWeatherIdList.elementAt(i));
+      weekdayList.add(weekday);
     }
-    print(weekdayArray);
-//    var date = DateTime.fromMillisecondsSinceEpoch(timestamp * 1000);
-//    print(weatherArray);
-
-    return dailyWeatherIdList;
+    return weekdayList;
   }
 
-  Future<int> returnWeatherTemp() async {
-    var request = await http.get(
-        'https://api.openweathermap.org/data/2.5/onecall?lat=$latitude&lon=$longitude&%20exclude=minutely,daily&units=metric&appid=52c1d862c3051641d2f1eb05dbdae674');
+  Future<List> temperatureList() async {
+    var request = await http.get(apiUrl);
     var decodedJson = jsonDecode(request.body);
     var weatherArray = decodedJson['daily'];
-    var dailyWeatherDayTempList = List();
-    var dailyWeatherNightTempList = List();
+    var dayTempList = List();
     for (int i = 0; i < 8; i++) {
-      dailyWeatherDayTempList.add(weatherArray[i]['temp']['day']);
-      dailyWeatherNightTempList.add(weatherArray[i]['temp']['night']);
-      print(dailyWeatherDayTempList.elementAt(i));
-      print(dailyWeatherNightTempList.elementAt(i));
+      dayTempList.add(weatherArray[i]['temp']['day'].toInt());
+//      dailyWeatherNightTempList.add(weatherArray[i]['temp']['night']);
+//      print(dailyWeatherDayTempList.elementAt(i));
+//      print(dailyWeatherNightTempList.elementAt(i));
     }
-    return null;
+    return dayTempList;
   }
 }
