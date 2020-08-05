@@ -8,6 +8,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: ThemeData.dark().copyWith(accentColor: Colors.yellow),
       debugShowCheckedModeBanner: false,
       routes: {
         '/': (context) => HomeScreen(),

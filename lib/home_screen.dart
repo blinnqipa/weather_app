@@ -20,8 +20,8 @@ class _HomeScreenState extends State<HomeScreen> {
     Network network = Network(
         latitude: position.latitude.toInt(),
         longitude: position.longitude.toInt());
-    weatherId = await network.returnWeatherId();
-    weatherTemp = await network.returnWeatherTemp();
+    weatherId = await network.returnWeatherIdAndDate();
+//    weatherTemp = await network.returnWeatherTemp();
     print('called getLocation');
     setState(() {});
   }
@@ -30,15 +30,6 @@ class _HomeScreenState extends State<HomeScreen> {
     getLocation();
     await Future.delayed(Duration(milliseconds: 1000));
     _refreshController.refreshCompleted();
-  }
-
-  void _onLoading() async {
-    // monitor network fetch
-    await Future.delayed(Duration(milliseconds: 10000));
-    // if failed,use loadFailed(),if no data return,use LoadNodata()
-
-    if (mounted) setState(() {});
-    _refreshController.loadComplete();
   }
 
   @override
@@ -52,21 +43,36 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       body: SmartRefresher(
         controller: _refreshController,
-        onLoading: _onLoading,
         onRefresh: _onRefresh,
         enablePullDown: true,
+        header: BezierHeader(
+          bezierColor: Colors.yellow,
+          rectHeight: 100,
+        ),
         child: Column(
           children: <Widget>[
             Padding(
-              padding: const EdgeInsets.only(top: 100.0),
+              padding: const EdgeInsets.only(top: 50.0),
               child: Center(
-                child: Text(
-                  '$weatherTemp°',
-                  style: GoogleFonts.comfortaa(
-                    fontSize: 160,
-                    fontWeight: FontWeight.w100,
-                    letterSpacing: -10.0,
-                  ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text(
+                      '$weatherTemp',
+                      style: GoogleFonts.comfortaa(
+                        fontSize: 140,
+                        fontWeight: FontWeight.w100,
+                        letterSpacing: -10.0,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 108.0),
+                      child: Text(
+                        '°',
+                        style: GoogleFonts.comfortaa(fontSize: 80),
+                      ),
+                    )
+                  ],
                 ),
               ),
             ),
