@@ -62,12 +62,12 @@ class _HomeScreenState extends State<HomeScreen> {
                 Icon(
                   Icons.refresh,
                   size: 35,
-                  color: Theme.of(context).primaryColor,
+                  color: Color(0xff08D6CB),
                 )
               ],
             ),
           ),
-          bezierColor: Colors.yellow,
+          bezierColor: Colors.white60,
           rectHeight: 90,
         ),
         child: Column(

@@ -19,24 +19,15 @@ class DailyWeather extends StatefulWidget {
 class _DailyWeatherState extends State<DailyWeather> {
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
-      child: Material(
-        color: Colors.transparent,
-        child: InkWell(
-          splashColor: Colors.yellow,
-          onTap: () {
-            Provider.of<Selection>(context, listen: false)
-                .changeSelectedItem(widget.index);
-          },
-          child: Container(
-            width: 60,
-            color: Colors.transparent,
-            child: Card(
-              color: (Provider.of<Selection>(context).getSelectedItem() ==
-                      widget.index)
-                  ? Colors.white
-                  : Colors.transparent,
+    return Material(
+      borderRadius: BorderRadius.circular(2),
+      color: Colors.transparent,
+      child: Padding(
+        padding: EdgeInsets.only(left: 10),
+        child: Material(
+          child: InkWell(
+            child: Container(
+              width: 65,
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Column(
@@ -74,10 +65,81 @@ class _DailyWeatherState extends State<DailyWeather> {
                   ],
                 ),
               ),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(6),
+                color: (Provider.of<Selection>(context).getSelectedItem() ==
+                        widget.index)
+                    ? Colors.white
+                    : Colors.transparent,
+              ),
             ),
+            onTap: () {
+              Provider.of<Selection>(context, listen: false)
+                  .changeSelectedItem(widget.index);
+            },
+            borderRadius: BorderRadius.all(Radius.circular(5)),
+            splashColor: Colors.white30,
+          ),
+          color: Colors.transparent,
+          borderRadius: BorderRadius.all(
+            Radius.circular(1),
           ),
         ),
       ),
     );
   }
 }
+//InkWell(
+//splashColor: Colors.yellow,
+//onTap: () {
+//Provider.of<Selection>(context, listen: false)
+//    .changeSelectedItem(widget.index);
+//},
+//child: Container(
+//width: 60,
+//color: Colors.transparent,
+//child: Card(
+//color: (Provider.of<Selection>(context).getSelectedItem() ==
+//widget.index)
+//? Colors.white
+//    : Colors.transparent,
+//child: Padding(
+//padding: const EdgeInsets.all(8.0),
+//child: Column(
+//children: <Widget>[
+//Icon(
+//FontAwesomeIcons.sun,
+//color:
+//(Provider.of<Selection>(context).getSelectedItem() ==
+//widget.index)
+//? Colors.black
+//    : null,
+//),
+//SizedBox(height: 10),
+//Text(
+//'${widget.temperature}°',
+//style: GoogleFonts.comfortaa(
+//color: (Provider.of<Selection>(context)
+//.getSelectedItem() ==
+//widget.index)
+//? Colors.black
+//    : null,
+//),
+//),
+//SizedBox(height: 10),
+//Text(
+//widget.day,
+//style: GoogleFonts.comfortaa(
+//color: (Provider.of<Selection>(context)
+//.getSelectedItem() ==
+//widget.index)
+//? Colors.black
+//    : null,
+//),
+//),
+//],
+//),
+//),
+//),
+//),
+//)
