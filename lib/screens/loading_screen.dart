@@ -3,7 +3,6 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:weather_app/services/network.dart';
-
 import 'home_screen.dart';
 
 class LoadingScreen extends StatefulWidget {
@@ -12,9 +11,7 @@ class LoadingScreen extends StatefulWidget {
 }
 
 class _LoadingScreenState extends State<LoadingScreen> {
-  List weatherId;
-  List weatherTemp;
-  List weekdayList;
+  List weatherDetails;
 
   void getLocation() async {
     Position position = await Geolocator()
@@ -22,16 +19,12 @@ class _LoadingScreenState extends State<LoadingScreen> {
     Network network = Network(
         latitude: position.latitude.toInt(),
         longitude: position.longitude.toInt());
-    weatherId = await network.idAndDateList();
-    weatherTemp = await network.temperatureList();
-    weekdayList = await network.weekdayList();
+    weatherDetails = await network.getWeatherDetails();
     Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) => HomeScreen(
-          weatherId: weatherId,
-          weatherTemp: weatherTemp,
-          weekdayList: weekdayList,
+          weatherDetails: weatherDetails,
         ),
       ),
     );

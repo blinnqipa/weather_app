@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:weather_app/common/common_data.dart';
 import 'package:http/http.dart' as http;
+import 'file:///C:/Users/blinn/AndroidStudioProjects/weather_app/lib/models/weather.dart';
 
 class Network {
   var apiUrl;
@@ -13,23 +14,12 @@ class Network {
         'https://api.openweathermap.org/data/2.5/onecall?lat=$latitude&lon=$longitude&%20exclude=minutely,daily&units=metric&appid=$apiKey';
   }
 
-  Future<List> idAndDateList() async {
+  Future<List> getWeatherDetails() async {
     var request = await http.get(apiUrl);
     var decodedJson = jsonDecode(request.body);
     var weatherArray = decodedJson['daily'];
-    var idList = List();
+    var weatherDetailsList = List();
 
-    for (int i = 0; i < 8; i++) {
-      idList.add(weatherArray[i]['weather'][0]['id']);
-    }
-    return idList;
-  }
-
-  Future<List> weekdayList() async {
-    var request = await http.get(apiUrl);
-    var decodedJson = jsonDecode(request.body);
-    var weatherArray = decodedJson['daily'];
-    var weekdayList = List();
     for (int i = 0; i < 8; i++) {
       var weekday;
       switch (DateTime.fromMillisecondsSinceEpoch(weatherArray[i]['dt'] * 1000)
@@ -56,22 +46,11 @@ class Network {
           weekday = 'Sun';
           break;
       }
-      weekdayList.add(weekday);
+
+      Weather weather = Weather(id:weatherArray[i]['weather'][0]['id'], dayTemperature:weatherArray[i]['temp']['day'].toInt(), nightTemperature: weatherArray[i]['temp']['night'].toInt(),day: weekday);
+      weatherDetailsList.add(weather);
     }
-    return weekdayList;
+    return weatherDetailsList;
   }
 
-  Future<List> temperatureList() async {
-    var request = await http.get(apiUrl);
-    var decodedJson = jsonDecode(request.body);
-    var weatherArray = decodedJson['daily'];
-    var dayTempList = List();
-    for (int i = 0; i < 8; i++) {
-      dayTempList.add(weatherArray[i]['temp']['day'].toInt());
-//      dailyWeatherNightTempList.add(weatherArray[i]['temp']['night']);
-//      print(dailyWeatherDayTempList.elementAt(i));
-//      print(dailyWeatherNightTempList.elementAt(i));
-    }
-    return dayTempList;
-  }
 }

@@ -5,10 +5,10 @@ import 'package:weather_app/services/network.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class HomeScreen extends StatefulWidget {
-  final weatherId;
-  final weatherTemp;
-  final weekdayList;
-  HomeScreen({this.weatherId, this.weatherTemp, this.weekdayList});
+//  final weatherId;
+  final weatherDetails;
+//  final weekdayList;
+  HomeScreen({this.weatherDetails});
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
@@ -17,7 +17,7 @@ class _HomeScreenState extends State<HomeScreen> {
   RefreshController _refreshController =
       RefreshController(initialRefresh: false);
   var weatherId;
-  List weatherTemp;
+  List weatherDetails;
   List weekdayList;
 
   void getLocation() async {
@@ -26,21 +26,15 @@ class _HomeScreenState extends State<HomeScreen> {
     Network network = Network(
         latitude: position.latitude.toInt(),
         longitude: position.longitude.toInt());
-    weatherId = await network.idAndDateList();
-    weatherTemp = await network.temperatureList();
-    weekdayList = await network.weekdayList();
-
+    weatherDetails = await network.getWeatherDetails();
     print('called getLocation');
     setState(() {});
   }
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    weatherId = widget.weatherId;
-    weatherTemp = widget.weatherTemp;
-    weekdayList = widget.weekdayList;
+    weatherDetails = widget.weatherDetails;
   }
 
   void _onRefresh() async {
@@ -83,7 +77,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         Text(
-                          '${weatherTemp.elementAt(0)}',
+                          '${weatherDetails[0].getDayTemp()}',
                           style: GoogleFonts.comfortaa(
                             fontSize: 140,
                             fontWeight: FontWeight.w100,
@@ -100,7 +94,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ],
                     ),
                     Text(
-                      weekdayList.elementAt(0),
+                      weatherDetails[0].getDay(),
                       style: GoogleFonts.comfortaa(fontSize: 20),
                     ),
                     Container(
@@ -114,14 +108,14 @@ class _HomeScreenState extends State<HomeScreen> {
                     Container(
                       height: MediaQuery.of(context).size.height * 0.09,
                       width: MediaQuery.of(context).size.width,
-                      child: ListView.builder(
-                        shrinkWrap: true,
-                        scrollDirection: Axis.horizontal,
-                        itemBuilder: (BuildContext context, int index) {
-                          return Text('w');
-                        },
-                        itemCount: weekdayList.length,
-                      ),
+//                      child: ListView.builder(
+//                        shrinkWrap: true,
+//                        scrollDirection: Axis.horizontal,
+//                        itemBuilder: (BuildContext context, int index) {
+//                          return Text('w');
+//                        },
+//                        itemCount: weekdayList.length,
+//                      ),
                     )
                   ],
                 ),
