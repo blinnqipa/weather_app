@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'package:weather_app/models/weather.dart';
 import 'package:weather_app/services/network.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:weather_app/widgets/daily_weather.dart';
 
+import '../selection.dart';
+
 class HomeScreen extends StatefulWidget {
-//  final weatherId;
   final weatherDetails;
-//  final weekdayList;
   HomeScreen({this.weatherDetails});
   @override
   _HomeScreenState createState() => _HomeScreenState();
@@ -20,7 +22,6 @@ class _HomeScreenState extends State<HomeScreen> {
       RefreshController(initialRefresh: false);
   var weatherId;
   List weatherDetails;
-  List weekdayList;
 
   void getLocation() async {
     Position position = await Geolocator()
@@ -48,6 +49,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xff08D6CB),
       body: SmartRefresher(
         controller: _refreshController,
         onRefresh: _onRefresh,
@@ -79,30 +81,39 @@ class _HomeScreenState extends State<HomeScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         Text(
-                          '${weatherDetails[0].getDayTemp()}',
+                          '${weatherDetails[Provider.of<Selection>(context).getSelectedItem()].getDayTemp()}',
                           style: GoogleFonts.comfortaa(
-                            fontSize: 140,
-                            fontWeight: FontWeight.w100,
-                            letterSpacing: -10.0,
-                          ),
+                              fontSize: 140,
+                              fontWeight: FontWeight.w100,
+                              letterSpacing: -10.0,
+                              color: Colors.black),
                         ),
                         Padding(
                           padding: const EdgeInsets.only(top: 108.0),
                           child: Text(
                             '°',
-                            style: GoogleFonts.comfortaa(fontSize: 80),
+                            style: GoogleFonts.comfortaa(
+                                fontSize: 80, color: Colors.black),
                           ),
                         )
                       ],
                     ),
                     Text(
-                      weatherDetails[0].getDay(),
-                      style: GoogleFonts.comfortaa(fontSize: 20),
+                      weatherDetails[
+                              Provider.of<Selection>(context).getSelectedItem()]
+                          .getDay(),
+                      style: GoogleFonts.comfortaa(
+                          fontSize: 20, color: Colors.black),
                     ),
                     Container(
                       width: 250,
                       height: 250,
-                      color: Colors.yellow,
+                      child: Center(
+                        child: Icon(
+                          FontAwesomeIcons.cloudSun,
+                          size: 150,
+                        ),
+                      ),
                     ),
                     SizedBox(
                       height: MediaQuery.of(context).size.height * 0.15,
@@ -114,20 +125,20 @@ class _HomeScreenState extends State<HomeScreen> {
                         shrinkWrap: true,
                         scrollDirection: Axis.horizontal,
                         itemBuilder: (BuildContext context, int index) {
+                          var selectedDay = weatherDetails[index];
                           Weather currentWeather = Weather(
-                              day: weatherDetails[index + 1].day,
-                              dayTemperature:
-                                  weatherDetails[index + 1].dayTemperature,
-                              nightTemperature:
-                                  weatherDetails[index + 1].nightTemperature,
-                              id: weatherDetails[index + 1].id);
+                              day: selectedDay.day,
+                              dayTemperature: selectedDay.dayTemperature,
+                              nightTemperature: selectedDay.nightTemperature,
+                              id: selectedDay.id);
                           return DailyWeather(
                             day: currentWeather.day,
                             id: currentWeather.id,
                             temperature: currentWeather.getDayTemp(),
+                            index: index,
                           );
                         },
-                        itemCount: weatherDetails.length - 1,
+                        itemCount: weatherDetails.length,
                       ),
                     )
                   ],
