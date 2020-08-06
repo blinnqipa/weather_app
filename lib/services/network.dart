@@ -25,32 +25,35 @@ class Network {
       switch (DateTime.fromMillisecondsSinceEpoch(weatherArray[i]['dt'] * 1000)
           .weekday) {
         case 1:
-          weekday = 'Mon';
+          weekday = 'MONDAY';
           break;
         case 2:
-          weekday = 'Tue';
+          weekday = 'TUESDAY';
           break;
         case 3:
-          weekday = 'Wed';
+          weekday = 'WEDNESDAY';
           break;
         case 4:
-          weekday = 'Thu';
+          weekday = 'THURSDAY';
           break;
         case 5:
-          weekday = 'Fri';
+          weekday = 'FRIDAY';
           break;
         case 6:
-          weekday = 'Sat';
+          weekday = 'SATURDAY';
           break;
         case 7:
-          weekday = 'Sun';
+          weekday = 'SUNDAY';
           break;
       }
 
-      Weather weather = Weather(id:weatherArray[i]['weather'][0]['id'], dayTemperature:weatherArray[i]['temp']['day'].toInt(), nightTemperature: weatherArray[i]['temp']['night'].toInt(),day: weekday);
+      Weather weather = Weather(
+          id: weatherArray[i]['weather'][0]['id'],
+          dayTemperature: weatherArray[i]['temp']['day'].toInt(),
+          nightTemperature: weatherArray[i]['temp']['night'].toInt(),
+          day: weekday);
       weatherDetailsList.add(weather);
     }
     return weatherDetailsList;
   }
-
 }

@@ -26,51 +26,46 @@ class _DailyWeatherState extends State<DailyWeather> {
         padding: EdgeInsets.only(left: 10),
         child: Material(
           child: InkWell(
-            child: Container(
-              width: 65,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  children: <Widget>[
-                    Icon(
-                      FontAwesomeIcons.sun,
-                      color:
-                          (Provider.of<Selection>(context).getSelectedItem() ==
-                                  widget.index)
-                              ? Colors.black
-                              : null,
-                    ),
-                    SizedBox(height: 10),
-                    Text(
-                      '${widget.temperature}°',
-                      style: GoogleFonts.comfortaa(
-                        color: (Provider.of<Selection>(context)
-                                    .getSelectedItem() ==
-                                widget.index)
-                            ? Colors.black
-                            : null,
+            child: Padding(
+              padding: const EdgeInsets.only(top: 5.0, bottom: 8.0),
+              child: Container(
+                width: 60,
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 10.0),
+                  child: Column(
+                    children: <Widget>[
+                      Icon(FontAwesomeIcons.sun, color: Colors.black),
+                      SizedBox(height: 10),
+                      Text(
+                        '${widget.temperature}°',
+                        style: GoogleFonts.comfortaa(
+                          color: Colors.black,
+                        ),
                       ),
-                    ),
-                    SizedBox(height: 10),
-                    Text(
-                      widget.day,
-                      style: GoogleFonts.comfortaa(
-                        color: (Provider.of<Selection>(context)
-                                    .getSelectedItem() ==
-                                widget.index)
-                            ? Colors.black
-                            : null,
+                      SizedBox(height: 10),
+                      Text(
+                        widget.day.substring(0, 3),
+                        style: GoogleFonts.comfortaa(
+                            color: Colors.black, fontSize: 12),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(6),
-                color: (Provider.of<Selection>(context).getSelectedItem() ==
-                        widget.index)
-                    ? Colors.white
-                    : Colors.transparent,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(6),
+                    color: (Provider.of<Selection>(context).getSelectedItem() ==
+                            widget.index)
+                        ? Colors.white
+                        : Colors.transparent,
+                    boxShadow: [
+                      (Provider.of<Selection>(context).getSelectedItem() ==
+                              widget.index)
+                          ? BoxShadow(
+                              color: Colors.black26,
+                              offset: Offset(1, 2),
+                              blurRadius: 10)
+                          : BoxShadow(color: Colors.transparent),
+                    ]),
               ),
             ),
             onTap: () {
@@ -81,65 +76,8 @@ class _DailyWeatherState extends State<DailyWeather> {
             splashColor: Colors.white30,
           ),
           color: Colors.transparent,
-          borderRadius: BorderRadius.all(
-            Radius.circular(1),
-          ),
         ),
       ),
     );
   }
 }
-//InkWell(
-//splashColor: Colors.yellow,
-//onTap: () {
-//Provider.of<Selection>(context, listen: false)
-//    .changeSelectedItem(widget.index);
-//},
-//child: Container(
-//width: 60,
-//color: Colors.transparent,
-//child: Card(
-//color: (Provider.of<Selection>(context).getSelectedItem() ==
-//widget.index)
-//? Colors.white
-//    : Colors.transparent,
-//child: Padding(
-//padding: const EdgeInsets.all(8.0),
-//child: Column(
-//children: <Widget>[
-//Icon(
-//FontAwesomeIcons.sun,
-//color:
-//(Provider.of<Selection>(context).getSelectedItem() ==
-//widget.index)
-//? Colors.black
-//    : null,
-//),
-//SizedBox(height: 10),
-//Text(
-//'${widget.temperature}°',
-//style: GoogleFonts.comfortaa(
-//color: (Provider.of<Selection>(context)
-//.getSelectedItem() ==
-//widget.index)
-//? Colors.black
-//    : null,
-//),
-//),
-//SizedBox(height: 10),
-//Text(
-//widget.day,
-//style: GoogleFonts.comfortaa(
-//color: (Provider.of<Selection>(context)
-//.getSelectedItem() ==
-//widget.index)
-//? Colors.black
-//    : null,
-//),
-//),
-//],
-//),
-//),
-//),
-//),
-//)

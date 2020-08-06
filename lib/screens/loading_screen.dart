@@ -20,11 +20,14 @@ class _LoadingScreenState extends State<LoadingScreen> {
         latitude: position.latitude.toInt(),
         longitude: position.longitude.toInt());
     weatherDetails = await network.getWeatherDetails();
+    List<Placemark> placemark = await Geolocator()
+        .placemarkFromCoordinates(position.latitude, position.longitude);
     Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) => HomeScreen(
           weatherDetails: weatherDetails,
+          locationName: placemark[0].name,
         ),
       ),
     );
@@ -32,10 +35,13 @@ class _LoadingScreenState extends State<LoadingScreen> {
     setState(() {});
   }
 
+  Future<String> getAddress() async {}
+
   @override
   void initState() {
     super.initState();
     getLocation();
+    getAddress();
   }
 
   @override

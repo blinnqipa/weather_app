@@ -12,7 +12,8 @@ import '../selection.dart';
 
 class HomeScreen extends StatefulWidget {
   final weatherDetails;
-  HomeScreen({this.weatherDetails});
+  final locationName;
+  HomeScreen({this.weatherDetails, this.locationName});
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
@@ -73,10 +74,17 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Column(
           children: <Widget>[
             Padding(
-              padding: const EdgeInsets.only(top: 50.0),
+              padding: const EdgeInsets.only(top: 60.0),
               child: Center(
                 child: Column(
                   children: <Widget>[
+                    Text(
+                      widget.locationName,
+                      style: GoogleFonts.comfortaa(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w800,
+                          color: Colors.black),
+                    ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
@@ -84,7 +92,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           '${weatherDetails[Provider.of<Selection>(context).getSelectedItem()].getDayTemp()}',
                           style: GoogleFonts.comfortaa(
                               fontSize: 140,
-                              fontWeight: FontWeight.w100,
+                              fontWeight: FontWeight.w300,
                               letterSpacing: -10.0,
                               color: Colors.black),
                         ),
@@ -98,16 +106,9 @@ class _HomeScreenState extends State<HomeScreen> {
                         )
                       ],
                     ),
-                    Text(
-                      weatherDetails[
-                              Provider.of<Selection>(context).getSelectedItem()]
-                          .getDay(),
-                      style: GoogleFonts.comfortaa(
-                          fontSize: 20, color: Colors.black),
-                    ),
                     Container(
-                      width: 250,
-                      height: 250,
+                      width: 200,
+                      height: 200,
                       child: Center(
                         child: WeatherIcon(
                           weatherId: weatherDetails[
@@ -117,30 +118,41 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       ),
                     ),
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.15,
+                    SizedBox(height: MediaQuery.of(context).size.height * 0.05),
+                    Text(
+                      weatherDetails[
+                              Provider.of<Selection>(context).getSelectedItem()]
+                          .getDay(),
+                      style: GoogleFonts.comfortaa(
+                          fontSize: 20,
+                          color: Colors.black,
+                          fontWeight: FontWeight.w900),
                     ),
+                    SizedBox(height: MediaQuery.of(context).size.height * 0.05),
                     Container(
-                      height: MediaQuery.of(context).size.height * 0.14,
+                      height: MediaQuery.of(context).size.height * 0.18,
                       width: MediaQuery.of(context).size.width,
-                      child: ListView.builder(
-                        shrinkWrap: true,
-                        scrollDirection: Axis.horizontal,
-                        itemBuilder: (BuildContext context, int index) {
-                          var selectedDay = weatherDetails[index];
-                          Weather currentWeather = Weather(
-                              day: selectedDay.day,
-                              dayTemperature: selectedDay.dayTemperature,
-                              nightTemperature: selectedDay.nightTemperature,
-                              id: selectedDay.id);
-                          return DailyWeather(
-                            day: currentWeather.day,
-                            id: currentWeather.id,
-                            temperature: currentWeather.getDayTemp(),
-                            index: index,
-                          );
-                        },
-                        itemCount: weatherDetails.length,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: ListView.builder(
+                          shrinkWrap: true,
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder: (BuildContext context, int index) {
+                            var selectedDay = weatherDetails[index];
+                            Weather currentWeather = Weather(
+                                day: selectedDay.day,
+                                dayTemperature: selectedDay.dayTemperature,
+                                nightTemperature: selectedDay.nightTemperature,
+                                id: selectedDay.id);
+                            return DailyWeather(
+                              day: currentWeather.day,
+                              id: currentWeather.id,
+                              temperature: currentWeather.getDayTemp(),
+                              index: index,
+                            );
+                          },
+                          itemCount: weatherDetails.length,
+                        ),
                       ),
                     )
                   ],
