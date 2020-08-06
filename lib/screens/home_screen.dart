@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:weather_app/models/weather.dart';
 import 'package:weather_app/services/network.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:weather_app/widgets/daily_weather.dart';
 
 class HomeScreen extends StatefulWidget {
 //  final weatherId;
@@ -103,19 +105,30 @@ class _HomeScreenState extends State<HomeScreen> {
                       color: Colors.yellow,
                     ),
                     SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.2,
+                      height: MediaQuery.of(context).size.height * 0.15,
                     ),
                     Container(
-                      height: MediaQuery.of(context).size.height * 0.09,
+                      height: MediaQuery.of(context).size.height * 0.14,
                       width: MediaQuery.of(context).size.width,
-//                      child: ListView.builder(
-//                        shrinkWrap: true,
-//                        scrollDirection: Axis.horizontal,
-//                        itemBuilder: (BuildContext context, int index) {
-//                          return Text('w');
-//                        },
-//                        itemCount: weekdayList.length,
-//                      ),
+                      child: ListView.builder(
+                        shrinkWrap: true,
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (BuildContext context, int index) {
+                          Weather currentWeather = Weather(
+                              day: weatherDetails[index + 1].day,
+                              dayTemperature:
+                                  weatherDetails[index + 1].dayTemperature,
+                              nightTemperature:
+                                  weatherDetails[index + 1].nightTemperature,
+                              id: weatherDetails[index + 1].id);
+                          return DailyWeather(
+                            day: currentWeather.day,
+                            id: currentWeather.id,
+                            temperature: currentWeather.getDayTemp(),
+                          );
+                        },
+                        itemCount: weatherDetails.length - 1,
+                      ),
                     )
                   ],
                 ),
