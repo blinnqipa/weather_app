@@ -23,6 +23,7 @@ class _HomeScreenState extends State<HomeScreen> {
       RefreshController(initialRefresh: false);
   var weatherId;
   List weatherDetails;
+  String locationName;
 
   void getLocation() async {
     Position position = await Geolocator()
@@ -30,20 +31,26 @@ class _HomeScreenState extends State<HomeScreen> {
     Network network = Network(
         latitude: position.latitude.toInt(),
         longitude: position.longitude.toInt());
+    List<Placemark> placemark = await Geolocator()
+        .placemarkFromCoordinates(position.latitude, position.longitude);
+    this.locationName = placemark[0].name;
     weatherDetails = await network.getWeatherDetails();
-    print('called getLocation');
     setState(() {});
   }
 
   @override
   void initState() {
     super.initState();
+    this.locationName = widget.locationName;
     weatherDetails = widget.weatherDetails;
   }
 
   void _onRefresh() async {
     getLocation();
     await Future.delayed(Duration(milliseconds: 1000));
+    print(weatherDetails[
+            Provider.of<Selection>(context, listen: false).getSelectedItem()]
+        .getId());
     _refreshController.refreshCompleted();
   }
 
@@ -79,7 +86,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Column(
                   children: <Widget>[
                     Text(
-                      widget.locationName,
+                      locationName,
                       style: GoogleFonts.comfortaa(
                           fontSize: 20,
                           fontWeight: FontWeight.w800,
@@ -109,13 +116,11 @@ class _HomeScreenState extends State<HomeScreen> {
                     Container(
                       width: 200,
                       height: 200,
-                      child: Center(
-                        child: WeatherIcon(
-                          weatherId: weatherDetails[
-                                  Provider.of<Selection>(context)
-                                      .getSelectedItem()]
-                              .getDayTemp(),
-                        ),
+                      child: WeatherIcon(
+                        weatherId: weatherDetails[
+                                Provider.of<Selection>(context)
+                                    .getSelectedItem()]
+                            .getId(),
                       ),
                     ),
                     SizedBox(height: MediaQuery.of(context).size.height * 0.05),

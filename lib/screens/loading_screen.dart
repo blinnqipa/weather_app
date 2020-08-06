@@ -35,13 +35,10 @@ class _LoadingScreenState extends State<LoadingScreen> {
     setState(() {});
   }
 
-  Future<String> getAddress() async {}
-
   @override
   void initState() {
     super.initState();
     getLocation();
-    getAddress();
   }
 
   @override

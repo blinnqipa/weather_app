@@ -26,6 +26,8 @@ class _DailyWeatherState extends State<DailyWeather> {
         padding: EdgeInsets.only(left: 10),
         child: Material(
           child: InkWell(
+            customBorder: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(100)),
             child: Padding(
               padding: const EdgeInsets.only(top: 5.0, bottom: 8.0),
               child: Container(
