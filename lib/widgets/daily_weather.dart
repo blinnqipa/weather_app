@@ -21,36 +21,58 @@ class _DailyWeatherState extends State<DailyWeather> {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
-      child: GestureDetector(
-        onTap: () {
-          setState(() {
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          splashColor: Colors.yellow,
+          onTap: () {
             Provider.of<Selection>(context, listen: false)
                 .changeSelectedItem(widget.index);
-          });
-        },
-        child: Card(
-          color: (Provider.of<Selection>(context).getSelectedItem() ==
-                  widget.index)
-              ? Colors.yellow
-              : null,
+          },
           child: Container(
             width: 60,
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                children: <Widget>[
-                  Icon(FontAwesomeIcons.sun),
-                  SizedBox(height: 10),
-                  Text(
-                    '${widget.temperature}°',
-                    style: GoogleFonts.comfortaa(),
-                  ),
-                  SizedBox(height: 10),
-                  Text(
-                    widget.day,
-                    style: GoogleFonts.comfortaa(),
-                  ),
-                ],
+            color: Colors.transparent,
+            child: Card(
+              color: (Provider.of<Selection>(context).getSelectedItem() ==
+                      widget.index)
+                  ? Colors.white
+                  : Colors.transparent,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  children: <Widget>[
+                    Icon(
+                      FontAwesomeIcons.sun,
+                      color:
+                          (Provider.of<Selection>(context).getSelectedItem() ==
+                                  widget.index)
+                              ? Colors.black
+                              : null,
+                    ),
+                    SizedBox(height: 10),
+                    Text(
+                      '${widget.temperature}°',
+                      style: GoogleFonts.comfortaa(
+                        color: (Provider.of<Selection>(context)
+                                    .getSelectedItem() ==
+                                widget.index)
+                            ? Colors.black
+                            : null,
+                      ),
+                    ),
+                    SizedBox(height: 10),
+                    Text(
+                      widget.day,
+                      style: GoogleFonts.comfortaa(
+                        color: (Provider.of<Selection>(context)
+                                    .getSelectedItem() ==
+                                widget.index)
+                            ? Colors.black
+                            : null,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

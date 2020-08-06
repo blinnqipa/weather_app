@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -7,6 +6,7 @@ import 'package:weather_app/models/weather.dart';
 import 'package:weather_app/services/network.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:weather_app/widgets/daily_weather.dart';
+import 'package:weather_app/widgets/weather_icon.dart';
 
 import '../selection.dart';
 
@@ -89,7 +89,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               color: Colors.black),
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(top: 108.0),
+                          padding: const EdgeInsets.only(top: 100.0),
                           child: Text(
                             '°',
                             style: GoogleFonts.comfortaa(
@@ -109,9 +109,11 @@ class _HomeScreenState extends State<HomeScreen> {
                       width: 250,
                       height: 250,
                       child: Center(
-                        child: Icon(
-                          FontAwesomeIcons.cloudSun,
-                          size: 150,
+                        child: WeatherIcon(
+                          weatherId: weatherDetails[
+                                  Provider.of<Selection>(context)
+                                      .getSelectedItem()]
+                              .getDayTemp(),
                         ),
                       ),
                     ),

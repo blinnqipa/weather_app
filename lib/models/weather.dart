@@ -9,5 +9,10 @@ class Weather {
 
   String getDay() => day;
 
-  Weather({this.id, this.day, this.dayTemperature, this.nightTemperature});
+  int getId() {
+    return this.id;
+  }
+
+  Weather(
+      {this.id = 100, this.day, this.dayTemperature, this.nightTemperature});
 }

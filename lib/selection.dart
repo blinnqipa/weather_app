@@ -5,7 +5,6 @@ class Selection extends ChangeNotifier {
 
   void changeSelectedItem(int index) {
     selectedItem = index;
-    print('selected index: $selectedItem');
     notifyListeners();
   }
 
