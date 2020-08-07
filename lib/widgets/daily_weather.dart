@@ -26,14 +26,14 @@ class _DailyWeatherState extends State<DailyWeather> {
         padding: EdgeInsets.only(left: 10),
         child: Material(
           child: InkWell(
-            customBorder: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(100)),
+            customBorder:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
             child: Padding(
-              padding: const EdgeInsets.only(top: 5.0, bottom: 8.0),
+              padding: const EdgeInsets.only(bottom: 3.0),
               child: Container(
                 width: 60,
                 child: Padding(
-                  padding: const EdgeInsets.only(top: 10.0),
+                  padding: const EdgeInsets.only(top: 18.0),
                   child: Column(
                     children: <Widget>[
                       Icon(FontAwesomeIcons.sun, color: Colors.black),

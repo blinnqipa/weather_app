@@ -21,11 +21,10 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   RefreshController _refreshController =
       RefreshController(initialRefresh: false);
-  var weatherId;
   List weatherDetails;
   String locationName;
 
-  void getLocation() async {
+  void _getLocation() async {
     Position position = await Geolocator()
         .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
     Network network = Network(
@@ -46,7 +45,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void _onRefresh() async {
-    getLocation();
+    _getLocation();
     await Future.delayed(Duration(milliseconds: 1000));
     print(weatherDetails[
             Provider.of<Selection>(context, listen: false).getSelectedItem()]
@@ -54,7 +53,7 @@ class _HomeScreenState extends State<HomeScreen> {
     _refreshController.refreshCompleted();
   }
 
-  bool isNumeric(String s) {
+  bool _isNumeric(String s) {
     if (s == null) {
       return false;
     }
@@ -93,7 +92,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Column(
                   children: <Widget>[
                     Text(
-                      (isNumeric(locationName)) ? '' : locationName,
+                      (_isNumeric(locationName)) ? '' : locationName,
                       style: GoogleFonts.comfortaa(
                           fontSize: 20,
                           fontWeight: FontWeight.w800,
