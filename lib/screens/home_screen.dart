@@ -54,6 +54,13 @@ class _HomeScreenState extends State<HomeScreen> {
     _refreshController.refreshCompleted();
   }
 
+  bool isNumeric(String s) {
+    if (s == null) {
+      return false;
+    }
+    return double.tryParse(s) != null;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -86,7 +93,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Column(
                   children: <Widget>[
                     Text(
-                      locationName,
+                      (isNumeric(locationName)) ? '' : locationName,
                       style: GoogleFonts.comfortaa(
                           fontSize: 20,
                           fontWeight: FontWeight.w800,
