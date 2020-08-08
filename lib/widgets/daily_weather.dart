@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import '../selection.dart';
+import 'selection.dart';
 
 class DailyWeather extends StatefulWidget {
   final int temperature;
@@ -63,8 +63,8 @@ class _DailyWeatherState extends State<DailyWeather> {
                       (Provider.of<Selection>(context).getSelectedItem() ==
                               widget.index)
                           ? BoxShadow(
-                              color: Colors.black26,
-                              offset: Offset(1, 2),
+                              color: Colors.black12,
+                              offset: Offset(1, 1),
                               blurRadius: 10)
                           : BoxShadow(color: Colors.transparent),
                     ]),

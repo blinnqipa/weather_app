@@ -6,9 +6,8 @@ import 'package:weather_app/models/weather.dart';
 import 'package:weather_app/services/network.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:weather_app/widgets/daily_weather.dart';
-import 'package:weather_app/widgets/weather_icon.dart';
-
-import '../selection.dart';
+import 'package:weather_app/widgets/weather_carousel.dart';
+import '../widgets/selection.dart';
 
 class HomeScreen extends StatefulWidget {
   final weatherDetails;
@@ -62,117 +61,83 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Color(0xff08D6CB),
-      body: SmartRefresher(
-        controller: _refreshController,
-        onRefresh: _onRefresh,
-        enablePullDown: true,
-        header: BezierHeader(
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Icon(
-                  Icons.refresh,
-                  size: 35,
-                  color: Color(0xff08D6CB),
-                )
-              ],
-            ),
-          ),
-          bezierColor: Colors.white60,
-          rectHeight: 90,
-        ),
-        child: Column(
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.only(top: 60.0),
-              child: Center(
-                child: Column(
-                  children: <Widget>[
-                    Text(
-                      (_isNumeric(locationName)) ? '' : locationName,
-                      style: GoogleFonts.comfortaa(
-                          fontSize: 20,
-                          fontWeight: FontWeight.w800,
-                          color: Colors.black),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Text(
-                          '${weatherDetails[Provider.of<Selection>(context).getSelectedItem()].getDayTemp()}',
-                          style: GoogleFonts.comfortaa(
-                              fontSize: 140,
-                              fontWeight: FontWeight.w300,
-                              letterSpacing: -10.0,
-                              color: Colors.black),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 100.0),
-                          child: Text(
-                            '°',
-                            style: GoogleFonts.comfortaa(
-                                fontSize: 80, color: Colors.black),
-                          ),
-                        )
-                      ],
-                    ),
-                    Container(
-                      width: 200,
-                      height: 200,
-                      child: WeatherIcon(
-                        weatherId: weatherDetails[
-                                Provider.of<Selection>(context)
-                                    .getSelectedItem()]
-                            .getId(),
-                      ),
-                    ),
-                    SizedBox(height: MediaQuery.of(context).size.height * 0.05),
-                    Text(
-                      weatherDetails[
-                              Provider.of<Selection>(context).getSelectedItem()]
-                          .getDay(),
-                      style: GoogleFonts.comfortaa(
-                          fontSize: 20,
-                          color: Colors.black,
-                          fontWeight: FontWeight.w900),
-                    ),
-                    SizedBox(height: MediaQuery.of(context).size.height * 0.05),
-                    Container(
-                      height: MediaQuery.of(context).size.height * 0.18,
-                      width: MediaQuery.of(context).size.width,
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: ListView.builder(
-                          shrinkWrap: true,
-                          scrollDirection: Axis.horizontal,
-                          itemBuilder: (BuildContext context, int index) {
-                            var selectedDay = weatherDetails[index];
-                            Weather currentWeather = Weather(
-                                day: selectedDay.day,
-                                dayTemperature: selectedDay.dayTemperature,
-                                nightTemperature: selectedDay.nightTemperature,
-                                id: selectedDay.id);
-                            return DailyWeather(
-                              day: currentWeather.day,
-                              id: currentWeather.id,
-                              temperature: currentWeather.getDayTemp(),
-                              index: index,
-                            );
-                          },
-                          itemCount: weatherDetails.length,
-                        ),
-                      ),
-                    )
-                  ],
-                ),
+    return Consumer<Selection>(builder: (context, selection, child) {
+      return Scaffold(
+        backgroundColor: Color(0xff08D6CB),
+        body: SmartRefresher(
+          controller: _refreshController,
+          onRefresh: _onRefresh,
+          enablePullDown: true,
+          header: BezierHeader(
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Icon(
+                    Icons.refresh,
+                    size: 35,
+                    color: Color(0xff08D6CB),
+                  )
+                ],
               ),
             ),
-          ],
+            bezierColor: Colors.white60,
+            rectHeight: 90,
+          ),
+          child: Column(
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.only(top: 60),
+                child: Center(
+                  child: Column(
+                    children: <Widget>[
+                      Text(
+                        (_isNumeric(locationName)) ? '' : locationName,
+                        style: GoogleFonts.comfortaa(
+                            fontSize: 20,
+                            fontWeight: FontWeight.w800,
+                            color: Colors.black),
+                      ),
+                      WeatherCarousel(
+                        weatherDetails: weatherDetails,
+                      ),
+                      SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.07),
+                      Container(
+                        height: MediaQuery.of(context).size.height * 0.18,
+                        width: MediaQuery.of(context).size.width,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: ListView.builder(
+                            shrinkWrap: true,
+                            scrollDirection: Axis.horizontal,
+                            itemBuilder: (BuildContext context, int index) {
+                              var selectedDay = weatherDetails[index];
+                              Weather currentWeather = Weather(
+                                  day: selectedDay.day,
+                                  dayTemperature: selectedDay.dayTemperature,
+                                  nightTemperature:
+                                      selectedDay.nightTemperature,
+                                  id: selectedDay.id);
+                              return DailyWeather(
+                                day: currentWeather.day,
+                                id: currentWeather.id,
+                                temperature: currentWeather.getDayTemp(),
+                                index: index,
+                              );
+                            },
+                            itemCount: weatherDetails.length,
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
-      ),
-    );
+      );
+    });
   }
 }
