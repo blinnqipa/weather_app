@@ -8,60 +8,6 @@ class WeatherCarousel extends StatelessWidget {
   WeatherCarousel({this.weatherDetails});
   @override
   Widget build(BuildContext context) {
-    return CarouselSlider(
-      options:
-          CarouselOptions(height: MediaQuery.of(context).size.height * 0.629),
-      items: weatherDetails.map((i) {
-        return Builder(
-          builder: (BuildContext context) {
-            return Container(
-              width: MediaQuery.of(context).size.width,
-              margin: EdgeInsets.symmetric(horizontal: 5.0),
-              color: Colors.transparent,
-              child: Column(
-                children: <Widget>[
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Text(
-                        '${i.getDayTemp()}',
-                        style: GoogleFonts.comfortaa(
-                            fontSize: 140,
-                            fontWeight: FontWeight.w300,
-                            letterSpacing: -10.0,
-                            color: Colors.black),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 100.0),
-                        child: Text(
-                          '°',
-                          style: GoogleFonts.comfortaa(
-                              fontSize: 80, color: Colors.black),
-                        ),
-                      )
-                    ],
-                  ),
-                  Container(
-                    width: 200,
-                    height: 200,
-                    child: WeatherIcon(
-                      weatherId: i.getId(),
-                    ),
-                  ),
-                  SizedBox(height: MediaQuery.of(context).size.height * 0.07),
-                  Text(
-                    i.getDay(),
-                    style: GoogleFonts.comfortaa(
-                        fontSize: 20,
-                        color: Colors.black,
-                        fontWeight: FontWeight.w900),
-                  ),
-                ],
-              ),
-            );
-          },
-        );
-      }).toList(),
-    );
+    return null;
   }
 }

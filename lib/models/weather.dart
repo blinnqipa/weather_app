@@ -5,6 +5,8 @@ class Weather {
 
   int nightTemperature;
 
+  int index;
+
   int getDayTemp() => dayTemperature;
 
   String getDay() => day;
@@ -14,5 +16,9 @@ class Weather {
   }
 
   Weather(
-      {this.id = 100, this.day, this.dayTemperature, this.nightTemperature});
+      {this.id = 100,
+      this.day,
+      this.dayTemperature,
+      this.nightTemperature,
+      this.index});
 }

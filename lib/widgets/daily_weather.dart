@@ -1,3 +1,4 @@
+import 'package:carousel_slider/carousel_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -9,8 +10,13 @@ class DailyWeather extends StatefulWidget {
   final int id;
   final String day;
   final int index;
-
-  DailyWeather({this.temperature, this.id, this.day, this.index});
+  final CarouselController carouselController;
+  DailyWeather(
+      {this.temperature,
+      this.id,
+      this.day,
+      this.index,
+      this.carouselController});
 
   @override
   _DailyWeatherState createState() => _DailyWeatherState();
@@ -71,8 +77,11 @@ class _DailyWeatherState extends State<DailyWeather> {
               ),
             ),
             onTap: () {
+              //TODO: trigger function from HomeScreen()
               Provider.of<Selection>(context, listen: false)
                   .changeSelectedItem(widget.index);
+              widget.carouselController.nextPage(
+                  curve: Curves.bounceInOut, duration: Duration(seconds: 1));
             },
             borderRadius: BorderRadius.all(Radius.circular(5)),
             splashColor: Colors.white30,

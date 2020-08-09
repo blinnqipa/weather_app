@@ -51,7 +51,8 @@ class Network {
           id: weatherArray[i]['weather'][0]['id'],
           dayTemperature: weatherArray[i]['temp']['day'].toInt(),
           nightTemperature: weatherArray[i]['temp']['night'].toInt(),
-          day: weekday);
+          day: weekday,
+          index: i);
       weatherDetailsList.add(weather);
     }
     return weatherDetailsList;
