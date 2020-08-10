@@ -8,8 +8,6 @@ import 'package:provider/provider.dart';
 import 'package:weather_app/models/weather.dart';
 import 'package:weather_app/services/network.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-import 'package:weather_app/widgets/daily_weather.dart';
-import 'package:weather_app/widgets/weather_carousel.dart';
 import 'package:weather_app/widgets/weather_icon.dart';
 import '../widgets/selection.dart';
 
@@ -68,6 +66,13 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    _changeCarouselPage(int index) {
+      Provider.of<Selection>(context, listen: false).changeSelectedItem(index);
+      carouselController.animateToPage(index,
+          duration: Duration(milliseconds: 800),
+          curve: Curves.fastLinearToSlowEaseIn);
+    }
+
     return Consumer<Selection>(builder: (context, selection, child) {
       return Scaffold(
         backgroundColor: Color(0xff08D6CB),
@@ -108,11 +113,10 @@ class _HomeScreenState extends State<HomeScreen> {
                       CarouselSlider(
                         carouselController: carouselController,
                         options: CarouselOptions(
-                            initialPage: 0,
                             onPageChanged: (pageNo, reason) {
                               selection.changeSelectedItem(pageNo);
                             },
-                            height: MediaQuery.of(context).size.height * 0.629),
+                            height: MediaQuery.of(context).size.height * 0.63),
                         items: weatherDetails.map((i) {
                           return Builder(
                             builder: (BuildContext context) {
@@ -255,16 +259,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                         ),
                                       ),
                                       onTap: () {
-                                        //TODO: local function
-                                        Provider.of<Selection>(context,
-                                                listen: false)
-                                            .changeSelectedItem(
-                                                selectedDay.index);
-                                        carouselController.animateToPage(index,
-                                            duration:
-                                                Duration(milliseconds: 800),
-                                            curve:
-                                                Curves.fastLinearToSlowEaseIn);
+                                        _changeCarouselPage(index);
                                       },
                                       borderRadius:
                                           BorderRadius.all(Radius.circular(5)),
