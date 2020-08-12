@@ -1,24 +1,27 @@
+import 'package:flutter/material.dart';
+
 class Weather {
   int id;
   String day;
   int dayTemperature;
-
   int nightTemperature;
-
   int index;
+  Color backgroundColor;
+
+  Weather({
+    this.id = 100,
+    this.day,
+    this.dayTemperature,
+    this.nightTemperature,
+    this.index,
+    this.backgroundColor,
+  });
 
   int getDayTemp() => dayTemperature;
 
   String getDay() => day;
 
-  int getId() {
-    return this.id;
-  }
+  int getId() => this.id;
 
-  Weather(
-      {this.id = 100,
-      this.day,
-      this.dayTemperature,
-      this.nightTemperature,
-      this.index});
+  Color getColor() => this.backgroundColor;
 }

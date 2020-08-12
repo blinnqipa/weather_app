@@ -7,12 +7,13 @@ import 'package:weather_app/services/network.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:weather_app/widgets/weather_carousel.dart';
 import 'package:weather_app/widgets/weather_list.dart';
-import '../widgets/selection.dart';
+import 'package:weather_app/services/selection.dart';
 
 class HomeScreen extends StatefulWidget {
   final weatherDetails;
   final locationName;
-  HomeScreen({this.weatherDetails, this.locationName});
+  final backgroundColor;
+  HomeScreen({this.weatherDetails, this.locationName, this.backgroundColor});
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
@@ -62,7 +63,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Consumer<Selection>(
       builder: (context, selection, child) {
         return Scaffold(
-          backgroundColor: Color(0xff08D6CB),
+          backgroundColor: widget.backgroundColor,
           body: SmartRefresher(
             controller: _refreshController,
             onRefresh: _onRefresh,
@@ -98,9 +99,11 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                         SizedBox(
                             height: MediaQuery.of(context).size.height * 0.07),
-                        WeatherList(
-                          weatherDetails: weatherDetails,
-                          carouselController: carouselController,
+                        Center(
+                          child: WeatherList(
+                            weatherDetails: weatherDetails,
+                            carouselController: carouselController,
+                          ),
                         ),
                       ],
                     ),
