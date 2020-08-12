@@ -22,7 +22,6 @@ class _LoadingScreenState extends State<LoadingScreen> {
     weatherDetails = await network.getWeatherDetails();
     List<Placemark> placemark = await Geolocator()
         .placemarkFromCoordinates(position.latitude, position.longitude);
-    print(weatherDetails[0].getColor());
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -33,7 +32,6 @@ class _LoadingScreenState extends State<LoadingScreen> {
         ),
       ),
     );
-    print('called getLocation');
     setState(() {});
   }
 

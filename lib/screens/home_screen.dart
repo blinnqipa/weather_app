@@ -73,10 +73,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Icon(
                   Icons.refresh,
                   size: 35,
-                  color: Color(0xff08D6CB),
+                  color: Colors.black,
                 ),
               ),
-              bezierColor: Colors.white60,
+              bezierColor: Colors.white,
               rectHeight: 90,
             ),
             child: Column(

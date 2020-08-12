@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:weather_app/common/common_data.dart';
 import 'package:http/http.dart' as http;
 import 'package:weather_app/models/weather.dart';
@@ -13,6 +13,25 @@ class Network {
   Network({this.latitude, this.longitude}) {
     apiUrl =
         'https://api.openweathermap.org/data/2.5/onecall?lat=$latitude&lon=$longitude&%20exclude=minutely,daily&units=metric&appid=$apiKey';
+  }
+
+  Color getBackgroundColor(int weatherId) {
+    if (weatherId >= 200 && weatherId < 300) {
+      return Colors.yellow;
+    } else if (weatherId >= 300 && weatherId > 400) {
+      return Colors.green;
+    } else if (weatherId >= 500 && weatherId > 600) {
+      return Colors.blue;
+    } else if (weatherId >= 600 && weatherId > 700) {
+      return Colors.white;
+    } else if (weatherId >= 700 && weatherId > 800) {
+      return Colors.black;
+    } else if (weatherId == 800) {
+      return Colors.purple;
+    } else if (weatherId > 800) {
+      return Colors.blueGrey;
+    } else
+      return Colors.deepOrange;
   }
 
   Future<List> getWeatherDetails() async {
@@ -48,25 +67,8 @@ class Network {
           weekday = 'SUNDAY';
           break;
       }
-      if (weatherArray[i]['weather'][0]['id'] > 200 &&
-          weatherArray[i]['weather'][0]['id'] < 300) {
-        backgroundColor = Color(0xff01CFFF);
-      } else if (weatherArray[i]['weather'][0]['id'] > 300 &&
-          weatherArray[i]['weather'][0]['id'] < 400) {
-        backgroundColor = Color(0xff0097a7);
-      } else if (weatherArray[i]['weather'][0]['id'] > 500 &&
-          weatherArray[i]['weather'][0]['id'] < 600) {
-        backgroundColor = Color(0xff2196f3);
-      } else if (weatherArray[i]['weather'][0]['id'] > 600 &&
-          weatherArray[i]['weather'][0]['id'] < 700) {
-        backgroundColor = Color(0xff01CBFF);
-      } else if (weatherArray[i]['weather'][0]['id'] > 700 &&
-          weatherArray[i]['weather'][0]['id'] < 800) {
-        backgroundColor = Color(0xff616161);
-      } else if (weatherArray[i]['weather'][0]['id'] == 800) {
-        backgroundColor = Color(0xff18ffff);
-      } else
-        backgroundColor = Color(0xffffffff);
+      backgroundColor =
+          getBackgroundColor(weatherArray[i]['weather'][0]['id'].toInt());
 
       Weather weather = Weather(
           id: weatherArray[i]['weather'][0]['id'],
@@ -74,7 +76,7 @@ class Network {
           nightTemperature: weatherArray[i]['temp']['night'].toInt(),
           day: weekday,
           index: i,
-      backgroundColor: backgroundColor);
+          backgroundColor: backgroundColor);
       weatherDetailsList.add(weather);
     }
     return weatherDetailsList;
